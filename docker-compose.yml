@@ -2,5 +2,5 @@ services:
   shiva:
     build: .
     image: shiva
-    container_name: shiva2
+    container_name: shiva
     restart: unless-stopped
