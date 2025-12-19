@@ -4,7 +4,7 @@ git clone https://github.com/Adjuntor/shiva.git
 cd shiva
 pip install --no-cache-dir -r requirements.txt
 ```
-Edit the config.py with the correct values and delete cog folders of the ones you don't need.
+Edit with the correct values and rename the config file to "config.py". You can delete the cog folders you don't need.
 Run the bot.
 ```
 python3 main.py
@@ -16,7 +16,7 @@ Requires docker to be installed.
 git clone https://github.com/Adjuntor/shiva.git
 cd shiva
 ```
-Edit the config.py with the correct values.
+Edit with the correct values and rename the config file to "config.py". You can delete the cog folders you don't need.
 ```
 docker build -t shiva .
 docker run -d --name=shiva --restart=always shiva
@@ -28,7 +28,7 @@ Requires docker and docker compose to be installed.
 git clone https://github.com/Adjuntor/shiva.git
 cd shiva
 ```
-Edit the config.py with the correct values and delete cog folders of the ones you don't need.
+Edit with the correct values and rename the config file to "config.py". You can delete the cog folders you don't need.
 ```
 docker-compose up -d
 ```
