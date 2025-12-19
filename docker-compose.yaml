@@ -3,4 +3,5 @@ services:
     build: .
     image: shiva
     container_name: shiva
+    network_mode: bridge
     restart: unless-stopped
