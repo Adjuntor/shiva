@@ -28,7 +28,7 @@ Requires docker and docker compose to be installed.
 git clone https://github.com/Adjuntor/shiva.git
 cd shiva
 ```
-Edit with the correct values and rename the config file to "```config.py```. You can delete the cog folders you don't need.
+Edit with the correct values and rename the config file to ```config.py```. You can delete the cog folders you don't need.
 ```
 docker-compose up -d
 ```
@@ -40,7 +40,7 @@ docker rm shiva
 ```
 
 # Updating
-To update the bot use the command below to ignore updating the config.py, keeping your local version.
+To update the bot use the command below.
 ```
 git pull
 ```
