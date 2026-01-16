@@ -5,6 +5,10 @@ PREFIX = "."
 EMBEDCOLOR=0x408020
 #####################################################################################
 
+################################----COGS TO LOAD----#################################
+ACTIVECOGS = ["activity.py", "cleanup.py", "help.py", "color.py", "hclasses.py", "hwelcome.py", "math.py", "moderation.py", "rss.py", "say.py", "sync.py", "twitter.py", "twitter-mk2.py"]
+#####################################################################################
+
 ###################################----TWITTER----###################################
 #Set the array as [twitter_user_id, discord_channel_id]
 #twitter_user_id: the id of the person you want to follow, ex: 44196397
