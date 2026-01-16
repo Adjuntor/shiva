@@ -6,4 +6,4 @@ services:
     network_mode: bridge
     restart: unless-stopped
     volumes:
-        - /home/docker/shiva:/usr/src/app/config
+        - <volume-name>:/usr/src/app/config
