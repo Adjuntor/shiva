@@ -19,7 +19,7 @@ cd shiva
 Edit with the correct values the config file.
 ```
 docker build -t shiva .
-docker run -d --name=shiva -v <volume-name>:<mount-path> --restart=always shiva
+docker run -d --name=shiva -v <volume-name>:/usr/src/app/config --restart=always shiva
 ```
 
 # Docker Compose
