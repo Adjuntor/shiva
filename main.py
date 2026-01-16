@@ -1,6 +1,6 @@
 #Allows to import cogs
 import os
-import config
+import config.config as config
 
 #Async lib
 import asyncio
@@ -40,5 +40,6 @@ async def load():
 async def main():
     await load()
     await bot.start(config.TOKEN)
+
 
 asyncio.run(main())
