@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -52,4 +52,5 @@ class Math(commands.Cog, name="Math"):
              return await interaction.response.send_message(f'Expression:```{expression}```\nResult:```{error}```')
 
 async def setup(bot: commands.Bot):
+
     await bot.add_cog(Math(bot))
