@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -41,4 +41,5 @@ class Activity(commands.Cog, name="Activity"):
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=status))
 
 async def setup(bot: commands.Bot):
+
   await bot.add_cog(Activity(bot))
