@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -69,4 +69,5 @@ class Sync(commands.Cog, name="Sync"):
             await ctx.send("You have to type a number.")
 
 async def setup(bot: commands.Bot):
+
   await bot.add_cog(Sync(bot))
