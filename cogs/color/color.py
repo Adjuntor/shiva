@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -91,4 +91,5 @@ class Color(commands.Cog, name="Color"):
         await ctx.send("Choose a color for your name. Choose the same color to remove it.", view=ColorView())
 
 async def setup(bot: commands.Bot):
+
     await bot.add_cog(Color(bot))
