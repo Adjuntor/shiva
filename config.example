@@ -107,9 +107,6 @@ ROLE_COLOR_PINK=[
 ########################################################################################
 
 ####################################----RSS----####################################
-# Channel ID
-RSS_CHANNEL_ID = 1460952939086593245
-
 # Update interval for how often the bot is supposed to check if a new entry in the RSS feed exists (in Seconds)
 RSS_UPDATE_INTERVAL = 60
 
@@ -128,3 +125,4 @@ RSS_FEEDS = [
     }
 ]
 #######################################################################################
+
