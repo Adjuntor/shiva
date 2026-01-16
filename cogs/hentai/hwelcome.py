@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -52,4 +52,5 @@ class HWelcome(commands.Cog, name="HWelcome"):
         await ctx.send("Choose if you are a friend or a member of the alliance.", view=HWelcomeView())
 
 async def setup(bot: commands.Bot):
+
     await bot.add_cog(HWelcome(bot))
