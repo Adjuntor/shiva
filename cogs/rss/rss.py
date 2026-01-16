@@ -68,7 +68,7 @@ class RSS(commands.Cog, name="RSS"):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @tasks.loop(minutes = RSS_UPDATE_INTERVAL)
+    @tasks.loop(seconds = RSS_UPDATE_INTERVAL)
     async def rss(self):
         new_articles = get_new_articles()
         for article in new_articles:
@@ -77,4 +77,5 @@ class RSS(commands.Cog, name="RSS"):
             record_article_in_db(article["article"])
  
 async def setup(bot: commands.Bot):
+
     await bot.add_cog(RSS(bot))
