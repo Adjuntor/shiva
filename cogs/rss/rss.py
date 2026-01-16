@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import RSS_CHANNEL_ID, RSS_UPDATE_INTERVAL, RSS_LAST_ARTICLE_RANGE, RSS_FEEDS
+from config import RSS_UPDATE_INTERVAL, RSS_LAST_ARTICLE_RANGE, RSS_FEEDS
 
 #Discord lib
 import discord
@@ -79,3 +79,4 @@ class RSS(commands.Cog, name="RSS"):
 async def setup(bot: commands.Bot):
 
     await bot.add_cog(RSS(bot))
+
