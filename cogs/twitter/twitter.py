@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config
 
 #User array
 following = config.TWITTER_FOLLOWING
@@ -85,3 +85,4 @@ class Twitter(commands.Cog, name="Twitter"):
 
 async def setup(bot: commands.Bot):
   await bot.add_cog(Twitter(bot))
+
