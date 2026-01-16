@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import config
+import config.config as config
 
 #Discord lib
 import discord
@@ -99,3 +99,4 @@ class Moderation(commands.Cog, name="Moderation"):
 
 async def setup(bot: commands.Bot):
   await bot.add_cog(Moderation(bot))
+
