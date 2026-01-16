@@ -31,11 +31,13 @@ async def on_message(message):
 
 #load cogs inside /cogs/<dir>
 async def load():
-    for dir in os.listdir('./cogs'):
-        for file in os.listdir('./cogs/'+dir):
-            if file.endswith('.py'):
-                await bot.load_extension(f'cogs.{dir}.{file[:-3]}')
-                print(f'{file} Loaded')
+    for x in config.ACTIVECOGS:
+        for dir in os.listdir('./cogs'):
+            for file in os.listdir('./cogs/'+dir):
+                if file == x:
+                    if file.endswith('.py'):
+                        await bot.load_extension(f'cogs.{dir}.{file[:-3]}')
+                        print(f'{file} Loaded')
 
 async def main():
     await load()
@@ -43,3 +45,4 @@ async def main():
 
 
 asyncio.run(main())
+
