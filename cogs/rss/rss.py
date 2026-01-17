@@ -15,13 +15,22 @@ from datetime import datetime, timedelta, timezone
 import aiosqlite
 from aiosqlitepool import SQLiteConnectionPool
 
+
+
+
 async def start_db():
     return await aiosqlite.connect("config/articles.db")  
+
+async def parse_date(articledate):
+    posttime = articledate.split('GMT')
+    pub_date = datetime.strptime(posttime[0].strip(), "%a, %d %b %Y %H:%M:%S").replace(tzinfo=timezone.utc)
+    return pub_date
       
 async def record_article_in_db(article):
     pool = SQLiteConnectionPool(start_db,pool_size=5,acquisition_timeout=60)
     async with pool.connection() as db:
-        await db.execute("INSERT INTO articles (link, date) VALUES (?, ?)", (article.link, article.published))
+        post_date = await parse_date(article.published)
+        await db.execute("INSERT INTO articles (link, date) VALUES (?, ?)", (article.link, post_date))
         await db.commit()
     await pool.close()
 
@@ -43,8 +52,7 @@ async def get_new_articles():
         entries = feedparser.parse(rss_feed["url"]).entries
         for entry in entries:
             if not await article_in_db(entry):
-                posttime = entry.published.split('GMT')
-                pub_date = datetime.strptime(posttime[0].strip(), "%a, %d %b %Y %H:%M:%S").replace(tzinfo=timezone.utc)
+                pub_date = await parse_date(entry.published)
                 if datetime.now(timezone.utc) - pub_date <= timedelta(days=config.RSS_LAST_ARTICLE_RANGE):
                     new_articles.append({"article": entry, "channel": rss_feed["channel"], "feedTitle": feedparser.parse(rss_feed["url"]).feed.title})
     return new_articles
@@ -87,5 +95,3 @@ class RSS(commands.Cog, name="RSS"):
  
 async def setup(bot: commands.Bot):
     await bot.add_cog(RSS(bot))
-
-
