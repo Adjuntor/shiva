@@ -1,6 +1,6 @@
 services:
   shiva:
-    image: ghcr.io/adjuntor/shiva/shiva:1.0.0
+    image: ghcr.io/adjuntor/shiva/shiva:latest
     container_name: shiva
     network_mode: bridge
     restart: unless-stopped
