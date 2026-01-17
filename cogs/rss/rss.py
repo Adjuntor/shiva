@@ -15,9 +15,6 @@ from datetime import datetime, timedelta, timezone
 import aiosqlite
 from aiosqlitepool import SQLiteConnectionPool
 
-
-
-
 async def start_db():
     return await aiosqlite.connect("config/articles.db")  
 
@@ -95,3 +92,4 @@ class RSS(commands.Cog, name="RSS"):
  
 async def setup(bot: commands.Bot):
     await bot.add_cog(RSS(bot))
+
