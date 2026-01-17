@@ -15,7 +15,6 @@ from datetime import datetime, timedelta, timezone
 import aiosqlite
 
 async def start_db():
-    print("inside")
     async with aiosqlite.connect('config/articles.db') as db:
         await db.execute("CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)")
         await db.commit()
@@ -81,3 +80,4 @@ class RSS(commands.Cog, name="RSS"):
  
 async def setup(bot: commands.Bot):
     await bot.add_cog(RSS(bot))
+
