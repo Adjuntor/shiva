@@ -11,23 +11,29 @@ from discord.ext import commands, tasks
 #RSS Parser
 import feedparser
 from datetime import datetime, timedelta, timezone
-import sqlite3
+#import sqlite3
+import aiosqlite
 
-connection = sqlite3.connect('config/articles.db')
-c = connection.cursor()
-c.execute("""CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)""")
-connection.commit()
-
+async def start_db():
+    print("inside")
+    async with aiosqlite.connect('config/articles.db') as db:
+        await db.execute("CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)")
+        await db.commit()
+      
 async def record_article_in_db(article):
-	c.execute("""INSERT INTO articles (title, link) VALUES (?, ?)""", (article.title, article.link))
-	connection.commit()
+    async with aiosqlite.connect('config/articles.db') as db:
+        await db.execute("INSERT INTO articles (title, link) VALUES (?, ?)", (article.title, article.link))
+        await db.commit()
 
 async def article_in_db(entry):
-	c.execute("""SELECT link FROM articles WHERE link=?""", (entry.link,))
-	if c.fetchone() is None:
-		return False
-	else:
-		return True
+    async with aiosqlite.connect('config/articles.db') as db:
+        is_on_database = await db.execute("SELECT link FROM articles WHERE link = ?", (entry.link,))
+        await db.commit()
+        if  await is_on_database.fetchone() is None:
+            return False
+        else:
+            return True
+    
 
 async def get_new_articles():
     new_articles = []
@@ -59,8 +65,9 @@ class RSS(commands.Cog, name="RSS"):
     @commands.Cog.listener()
     async def on_ready(self):
         print('RSS Cog initialized')
+        await start_db()
         self.rss.start()
-
+        
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
