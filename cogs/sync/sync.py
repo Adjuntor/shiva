@@ -20,7 +20,7 @@ class Sync(commands.Cog, name="Sync"):
     @commands.command()
     @commands.guild_only()
     @commands.is_owner()
-    async def sync(self, ctx, guilds: commands.Greedy[discord.Object], spec: int):
+    async def sync(self, ctx, guilds: commands.Greedy[discord.Object], spec):
         if not guilds:
             await ctx.message.delete()
             if spec == "1":
@@ -71,3 +71,4 @@ class Sync(commands.Cog, name="Sync"):
 async def setup(bot: commands.Bot):
 
   await bot.add_cog(Sync(bot))
+
