@@ -11,7 +11,6 @@ from discord.ext import commands, tasks
 #RSS Parser
 import feedparser
 from datetime import datetime, timedelta, timezone
-#import sqlite3
 import aiosqlite
 from aiosqlitepool import SQLiteConnectionPool
 
@@ -20,8 +19,8 @@ async def start_db():
 
 async def parse_date(articledate):
     posttime = articledate.split('GMT')
-    pub_date = datetime.strptime(posttime[0].strip(), "%a, %d %b %Y %H:%M:%S").replace(tzinfo=timezone.utc)
-    return pub_date
+    beautiful_date = datetime.strptime(posttime[0].strip(), "%a, %d %b %Y %H:%M:%S").replace(tzinfo=timezone.utc)
+    return beautiful_date
       
 async def record_article_in_db(article):
     pool = SQLiteConnectionPool(start_db,pool_size=5,acquisition_timeout=60)
@@ -66,6 +65,7 @@ async def format_to_message(article):
         article_link = article_link.replace("http://twitter.com","https://fxtwitter.com")
     message = f"{article_link}"
     return message
+    
 
 class RSS(commands.Cog, name="RSS"):
     """RSS cog"""
@@ -77,10 +77,20 @@ class RSS(commands.Cog, name="RSS"):
             await db.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT, date TEXT)")
             await db.commit()
         await pool.close()
+        self.cleandb.start()
         self.rss.start()
         
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+
+    @tasks.loop(hours = 24)
+    async def cleandb(self):
+        date_cutout = datetime.now(timezone.utc) - timedelta(days=config.RSS_LAST_ARTICLE_RANGE + 1)
+        pool = SQLiteConnectionPool(start_db,pool_size=20,acquisition_timeout=15)
+        async with pool.connection() as db:
+            await db.execute("DELETE FROM articles WHERE DATE < ?", (date_cutout,))
+            await db.commit()
+        await pool.close()
 
     @tasks.loop(seconds = config.RSS_UPDATE_INTERVAL)
     async def rss(self):
@@ -92,4 +102,3 @@ class RSS(commands.Cog, name="RSS"):
  
 async def setup(bot: commands.Bot):
     await bot.add_cog(RSS(bot))
-
