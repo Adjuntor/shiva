@@ -15,14 +15,13 @@ from datetime import datetime, timedelta, timezone
 import aiosqlite
 from aiosqlitepool import SQLiteConnectionPool
 
-
 async def start_db():
     return await aiosqlite.connect("config/articles.db")  
       
 async def record_article_in_db(article):
     pool = SQLiteConnectionPool(start_db,pool_size=5,acquisition_timeout=60)
     async with pool.connection() as db:
-        await db.execute("INSERT INTO articles (title, link) VALUES (?, ?)", (article.title, article.link))
+        await db.execute("INSERT INTO articles (link, date) VALUES (?, ?)", (article.link, article.published))
         await db.commit()
     await pool.close()
 
@@ -70,7 +69,7 @@ class RSS(commands.Cog, name="RSS"):
         print('RSS Cog initialized')
         pool = SQLiteConnectionPool(start_db)
         async with pool.connection() as db:
-            await db.execute("CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)")
+            await db.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT, date TEXT)")
             await db.commit()
         await pool.close()
         self.rss.start()
