@@ -13,26 +13,37 @@ import feedparser
 from datetime import datetime, timedelta, timezone
 #import sqlite3
 import aiosqlite
+from aiosqlitepool import SQLiteConnectionPool
+
 
 async def start_db():
-    async with aiosqlite.connect('config/articles.db') as db:
-        await db.execute("CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)")
-        await db.commit()
+    print("startdb")
+    return await aiosqlite.connect("config/articles.db")  
       
 async def record_article_in_db(article):
-    async with aiosqlite.connect('config/articles.db') as db:
+    print("record")
+    pool = SQLiteConnectionPool(start_db,pool_size=5,acquisition_timeout=60)
+    async with pool.connection() as db:
+        print("inside record")
         await db.execute("INSERT INTO articles (title, link) VALUES (?, ?)", (article.title, article.link))
         await db.commit()
+    await pool.close()
 
 async def article_in_db(entry):
-    async with aiosqlite.connect('config/articles.db') as db:
+    print("article")
+    pool = SQLiteConnectionPool(start_db,pool_size=20,acquisition_timeout=15)
+    async with pool.connection() as db:
+        print("inside article")
         is_on_database = await db.execute("SELECT link FROM articles WHERE link = ?", (entry.link,))
         await db.commit()
         if  await is_on_database.fetchone() is None:
+            await pool.close()
             return False
+            
         else:
+            await pool.close()
             return True
-    
+    await pool.close()       
 
 async def get_new_articles():
     new_articles = []
@@ -64,7 +75,13 @@ class RSS(commands.Cog, name="RSS"):
     @commands.Cog.listener()
     async def on_ready(self):
         print('RSS Cog initialized')
-        await start_db()
+        pool = SQLiteConnectionPool(start_db)
+        print("inside startdb")
+        async with pool.connection() as db:
+            print("enter onready pool")
+            await db.execute("CREATE TABLE IF NOT EXISTS articles (title TEXT, link TEXT)")
+            await db.commit()
+        await pool.close()
         self.rss.start()
         
     def __init__(self, bot: commands.Bot):
