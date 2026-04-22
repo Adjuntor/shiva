@@ -1,8 +1,7 @@
 services:
   shiva:
-    image: ghcr.io/adjuntor/shiva/shiva:latest
+    image: ghcr.io/adjuntor/shiva:latest
     container_name: shiva
-    network_mode: bridge
     restart: unless-stopped
     volumes:
         - <volume-name>:/usr/src/app/config
