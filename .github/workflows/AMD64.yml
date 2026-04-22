@@ -35,5 +35,5 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ghcr.io/${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}:latest
-            ghcr.io/${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}:${{ github.sha }}
+            ghcr.io/adjuntor/shiva:latest
+            ghcr.io/adjuntor/shiva:${{ github.sha }}
