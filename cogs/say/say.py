@@ -9,14 +9,14 @@ from discord.ext import commands
 from discord import app_commands
 from typing import Optional
 
-class Sayslash(commands.Cog):
+class Say(commands.Cog):
     """Make the bot say things with slash commands"""
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     async def cog_load(self):
-        print("Say Slash Cog initialized")
+        print("Say Cog initialized")
 
     @app_commands.command(name="say", description="Only my master can make me say things.")
     @app_commands.describe(channel="Channel to send the message in", text="Text for the bot to say", file="Attach a file to send with the message")
@@ -64,4 +64,4 @@ class Sayslash(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Sayslash(bot))
+    await bot.add_cog(Say(bot))
